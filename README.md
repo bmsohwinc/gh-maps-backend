@@ -8,3 +8,18 @@
         - 5000 points per hour
 2. Use the `x-ratelimit-remaining` header returned by the query to check remaining points
 
+
+## Planning and Execution
+<details>
+- [ ] Backend
+    - [ ] Simple backend end point
+    - [ ] Simple rate-limiting
+    - [ ] Caching of username + page
+    - [ ] Raw response to get remaining points metric from header
+    - [ ] Refactoring
+- [ ] Frontend
+    - [ ] Simple Nodes and edges
+    - [ ] Fetch data
+    - [ ] Double-click to fetch next page
+    - [ ] GMaps / Space-like navigation
+</details>

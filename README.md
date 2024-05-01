@@ -25,3 +25,7 @@
     - [ ] GMaps / Space-like navigation
 
 </details>
+
+## References
+1. [Raw request](https://github.com/jasonkuhrt/graphql-request/blob/main/examples/request-handle-raw-response.ts) in graphql-request library
+2. [Rate limiting formula](https://docs.github.com/en/graphql/overview/rate-limits-and-node-limits-for-the-graphql-api#primary-rate-limit) for GitHub GraphQL API

@@ -28,18 +28,14 @@ app.use(limiter);
 const graphqlQuery = gql`
     query($limit:Int!, $login:String!, $afterPage: String) {
         user (login: $login) {
-            login
-            company
-            location
+            avatarUrl
+            name
             following (first: $limit after: $afterPage) {
                 totalCount
                 nodes {
                     login
-                    company
-                    location
-                    following {
-                        totalCount
-                    }
+                    name
+                    avatarUrl
                     followers {
                         totalCount
                     }

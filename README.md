@@ -11,9 +11,10 @@
 
 ## Planning and Execution
 <details>
+    
 - [ ] Backend
-    - [ ] Simple backend end point
-    - [ ] Simple rate-limiting
+    - [x] Simple backend end point
+    - [x] Simple rate-limiting
     - [ ] Caching of username + page
     - [ ] Raw response to get remaining points metric from header
     - [ ] Refactoring
@@ -22,4 +23,5 @@
     - [ ] Fetch data
     - [ ] Double-click to fetch next page
     - [ ] GMaps / Space-like navigation
+
 </details>

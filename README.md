@@ -1,0 +1,10 @@
+# Github Connections Visualizer
+
+## Rate limiting warnings for Devs
+1. Check GitHub's GraphQL Rate limiting rules
+    - Current query fetches 84 nodes with a cost of 1 point (Normalized as: 81 connections / 100)
+    - Rate limits are: 
+        - 500,000 nodes per query
+        - 5000 points per hour
+2. Use the `x-ratelimit-remaining` header returned by the query to check remaining points
+

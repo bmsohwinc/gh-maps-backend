@@ -126,6 +126,10 @@ async function queryGitHub(req, res, query, queriedNode, cache) {
 }
 
 
+// Health check end point
+app.get('/', (req, res) => res.status(200).send({ message: 'Hello' }));
+
+// Others
 app.get('/followings', async (req, res, next) => {
     await queryGitHub(req, res, followingsGraphqlQuery, QUERIED_NODE.FOLLOWINGS, followingsCache);
 });

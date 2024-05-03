@@ -7,6 +7,8 @@ import { ClientError, gql, rawRequest } from 'graphql-request';
 import graphQLClient from './graphql-client.js';
 
 import pkg from 'body-parser';
+import { processGraphQLData } from './utils.js';
+import { QUERIED_NODE } from './consts.js';
 const { json, urlencoded } = pkg;
 
 const BASE_URL = 'https://api.github.com/graphql';
@@ -42,6 +44,9 @@ const followingsGraphqlQuery = gql`
                     followers {
                         totalCount
                     }
+                    following {
+                        totalCount
+                    }
                 }
                 pageInfo {
                     endCursor
@@ -67,6 +72,9 @@ const followersGraphqlQuery = gql`
                     followers {
                         totalCount
                     }
+                    following {
+                        totalCount
+                    }
                 }
                 pageInfo {
                     endCursor
@@ -77,7 +85,9 @@ const followersGraphqlQuery = gql`
     } 
 `
 
-async function queryGitHub(req, res, query) {
+async function queryGitHub(req, res, queriedNode) {
+
+    const query = queriedNode === QUERIED_NODE.FOLLOWERS ? followersGraphqlQuery : followingsGraphqlQuery;
     try {
         const variables = {
             limit: QUERY_RECORD_LIMIT,
@@ -93,19 +103,20 @@ async function queryGitHub(req, res, query) {
             }
         );
         const requestsRemaining = headers.get('x-ratelimit-remaining');
-        res.send(data);
+        res.send({ data: processGraphQLData(data, queriedNode) });
     } catch (error) {
-        res.status(404).send('USER_NOT_FOUND');
+        console.log(`User not found: ${req.query.login}`);
+        res.status(404).send({message: 'USER_NOT_FOUND'});
     }
 }
 
 
 app.get('/followings', async (req, res, next) => {
-    await queryGitHub(req, res, followingsGraphqlQuery);
+    await queryGitHub(req, res, QUERIED_NODE.FOLLOWINGS);
 });
 
 app.get('/followers', async (req, res, next) => {
-    await queryGitHub(req, res, followersGraphqlQuery);
+    await queryGitHub(req, res, QUERIED_NODE.FOLLOWERS);
 });
 
 

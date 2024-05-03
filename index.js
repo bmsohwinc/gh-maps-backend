@@ -3,13 +3,13 @@ import express from 'express';
 import {rateLimit} from 'express-rate-limit';
 import 'dotenv/config';
 
-import { gql } from 'graphql-request';
+import { ClientError, gql, rawRequest } from 'graphql-request';
 import graphQLClient from './graphql-client.js';
 
 import pkg from 'body-parser';
 const { json, urlencoded } = pkg;
 
-
+const BASE_URL = 'https://api.github.com/graphql';
 const PORT = 3001;
 const QUERY_RECORD_LIMIT = 20;
 const limiter = rateLimit({
@@ -77,30 +77,36 @@ const followersGraphqlQuery = gql`
     } 
 `
 
+async function queryGitHub(req, res, query) {
+    try {
+        const variables = {
+            limit: QUERY_RECORD_LIMIT,
+            login: req.query.login,
+            afterPage: req.query.afterPage === 'null' ? null : req.query.afterPage,
+        }
+        const { data, errors, extensions, headers, status } = await rawRequest(
+            BASE_URL, 
+            query, 
+            variables,
+            {
+                authorization: `Bearer ${process.env.GH_API_KEY}`,
+            }
+        );
+        const requestsRemaining = headers.get('x-ratelimit-remaining');
+        res.send(data);
+    } catch (error) {
+        res.status(404).send('USER_NOT_FOUND');
+    }
+}
+
 
 app.get('/followings', async (req, res, next) => {
-    const variables = {
-        limit: QUERY_RECORD_LIMIT,
-        login: req.query.login,
-        afterPage: req.query.afterPage === 'null' ? null : req.query.afterPage,
-    }
-    const data = await graphQLClient.request(followingsGraphqlQuery, variables);
-    console.log(data);
-    res.send(data);
+    await queryGitHub(req, res, followingsGraphqlQuery);
 });
 
 app.get('/followers', async (req, res, next) => {
-    const variables = {
-        limit: QUERY_RECORD_LIMIT,
-        login: req.query.login,
-        afterPage: req.query.afterPage === 'null' ? null : req.query.afterPage,
-    }
-    const data = await graphQLClient.request(followersGraphqlQuery, variables);
-    console.log(data);
-    res.send(data);
+    await queryGitHub(req, res, followersGraphqlQuery);
 });
 
 
 app.listen(PORT, () => console.log('server started'));
-
-

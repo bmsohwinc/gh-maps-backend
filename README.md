@@ -13,10 +13,11 @@ With **gh-navigator**, you can access _any_ user's connections on a single page,
 
 ## Tech stack
 1. Language: JavaScript
-2. Server: Express JS
-3. GraphQL client: graphql-requests
-4. Caching: node-cache
-5. Rate-limiting: express-rate-limit
+2. Framework: Node JS
+3. Server: Express JS
+4. GraphQL client: graphql-requests
+5. Caching: node-cache
+6. Rate-limiting: express-rate-limit
 
 ## Local setup
 1. Backend (this repository)

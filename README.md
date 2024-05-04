@@ -1,5 +1,5 @@
 # Backend of gh-navigator
-View your and other's GitHub connections a little easily! [Try it out LIVE!](https://gh-maps-frontend.vercel.app/)
+View your and other's GitHub connections a little easily! [Try it out 🟢 LIVE!](https://gh-maps-frontend.vercel.app/)
 
 ## Why gh-navigator?
 Without a central page for user connections, searching users and their projects on GitHub is a little hard, requiring multiple clicks and page visits.\

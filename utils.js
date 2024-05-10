@@ -1,4 +1,4 @@
-import { QUERIED_NODE } from "./consts.js";
+import { QUERIED_NODE } from "./consts/consts.js";
 
 export function processNodes(nodes) {
     return nodes.map((node) => ({
